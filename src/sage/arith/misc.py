@@ -6630,8 +6630,8 @@ def quadratic_residuocity_characterization(x):
         sage: j = random.randint(0, 100)
         sage: rand_QR_prime = QR_primes[i]
         sage: rand_NQR_prime = NQR_primes[j]
-        sage: bol_1 = kronecker(123, rand_QR_prime) == 1
-        sage: bol_2 = kronecker(123, rand_NQR_prime) == -1
+        sage: bol_1 = (kronecker(123, rand_QR_prime) == 1)
+        sage: bol_2 = (kronecker(123, rand_NQR_prime) == -1)
         sage: print(bol_1 and bol_2)
         True
     
