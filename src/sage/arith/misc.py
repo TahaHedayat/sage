@@ -6670,6 +6670,8 @@ def quadratic_residuocity_characterization(x):
     if x not in ZZ:
         raise TypeError("The input is not an integer.")
     
+    from sage.sets.primes import Primes
+    
     quad_res_char_dict = {1: None, 0: None, -1: None, 'modulus':None}
     
     if x == 0:
