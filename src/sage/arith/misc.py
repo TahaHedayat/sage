@@ -6593,6 +6593,7 @@ def quadratic_residuocity_characterization(x):
     
     EXAMPLES:
         
+        sage: from sage.arith.misc import quadratic_residuocity_characterization
         sage: result_dict = quadratic_residuocity_characterization(2)
         sage: print(result_dict)
         {1: [1, 7], 0: [2], -1: [3, 5], 'modulus': 8}
@@ -6611,6 +6612,7 @@ def quadratic_residuocity_characterization(x):
     
     TESTS:
         
+        sage: from sage.arith.misc import quadratic_residuocity_characterization
         sage: result_dict = quadratic_residuocity_characterization(-1)
         sage: print(result_dict)
         {1: [1], 0: [2], -1: [3], 'modulus': 4}
