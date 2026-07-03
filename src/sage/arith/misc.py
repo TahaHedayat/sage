@@ -6623,6 +6623,7 @@ def quadratic_residuocity_characterization(x):
         sage: print(result_dict)
         {1: [1], 0: [2, 11], -1: [3], 'modulus': 4}
         
+        sage: import random
         sage: result_dict = quadratic_residuocity_characterization(123)
         sage: QR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[1]).exclude(result_dict[0])
         sage: NQR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[-1]).exclude(result_dict[0])
