@@ -6570,14 +6570,13 @@ def quadratic_residuocity_characterization(x):
 
     and return the computed values as a dictionary of the form:
 
-    .. centered::
-        .. code-block::
-            quad_res_char_dict = {
-                 1: [a_1_1 , a_1_2 , ... , a_1_n ],
-                 0: [p_1   , p_2   , ... , p_v   ],
-                -1: [a_-1_1, a_-1_2, ... , a_-1_m],
-                'modulus': M
-            }
+    .. code-block::
+        quad_res_char_dict = {
+             1: [a_1_1 , a_1_2 , ... , a_1_n ],
+             0: [p_1   , p_2   , ... , p_v   ],
+            -1: [a_-1_1, a_-1_2, ... , a_-1_m],
+            'modulus': M
+        }
 
     NOTE::
 
