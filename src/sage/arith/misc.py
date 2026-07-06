@@ -6570,7 +6570,8 @@ def quadratic_residuocity_characterization(x):
 
     and return the computed values as a dictionary of the form:
 
-    .. code-block:: text
+::
+
         quad_res_char_dict = {
              1: [a_1_1 , a_1_2 , ... , a_1_n ],
              0: [p_1   , p_2   , ... , p_v   ],
