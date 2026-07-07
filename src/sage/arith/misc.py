@@ -6625,12 +6625,12 @@ def quadratic_residuocity_characterization(x):
         sage: print(result_dict)
         {1: [1], 0: [2, 11], -1: [3], 'modulus': 4}
 
-        sage: import random
+        sage: from random import randint
         sage: result_dict = quadratic_residuocity_characterization(123)
         sage: QR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[1]).exclude(result_dict[0])
         sage: NQR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[-1]).exclude(result_dict[0])
-        sage: i = random.randint(0, 100)
-        sage: j = random.randint(0, 100)
+        sage: i = randint(0, 100)
+        sage: j = randint(0, 100)
         sage: rand_QR_prime = QR_primes[i]
         sage: rand_NQR_prime = NQR_primes[j]
         sage: bol_1 = (kronecker(123, rand_QR_prime) == 1)
