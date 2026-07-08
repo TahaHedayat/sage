@@ -6539,23 +6539,23 @@ def quadratic_residuocity_characterization(x):
 
     INPUT:
 
-        - ``x`` an integer
+    - ``x`` an integer
 
     OUTPUT:
 
-        - A dictionary, ``quad_res_char_dict``, with keys ``1``, ``0``, ``-1``,
-          and ``'modulus'``.
+    - A dictionary, ``quad_res_char_dict``, with keys ``1``, ``0``, ``-1``,
+      and ``'modulus'``.
 
-            - ``quad_res_char_dict[1]`` is either ``None``, or a list of
-              congruence classes modulo ``M``.
+        - ``quad_res_char_dict[1]`` is either ``None``, or a list of
+          congruence classes modulo ``M``.
 
-            - ``quad_res_char_dict[0]`` is either ``None`` or a list of primes.
+        - ``quad_res_char_dict[0]`` is either ``None`` or a list of primes.
 
-            - ``quad_res_char_dict[-1]`` is either ``None`` or a list of
-              congruence classes modulo ``M``.
+        - ``quad_res_char_dict[-1]`` is either ``None`` or a list of
+          congruence classes modulo ``M``.
 
-            - ``quad_res_char_dict['modulus']`` is either ``None`` or an integer
-              ``M``.
+        - ``quad_res_char_dict['modulus']`` is either ``None`` or an integer
+          ``M``.
 
     To be precise: given a rational integer `x`, determine `M`, `a_{1_1},
     a_{1_2}, \ldots, a_{1_n}`, `p_1, p_2, \ldots, p_v`, and `a_{-1_1},
