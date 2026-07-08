@@ -6589,7 +6589,7 @@ def quadratic_residuocity_characterization(x):
         ``quad_res_char_dict[0]`` is the list of prime factors of `x`, and all
         other values are ``None``.
 
-    EXAMPLES:
+    EXAMPLES::
 
         sage: from sage.arith.misc import quadratic_residuocity_characterization
         sage: result_dict = quadratic_residuocity_characterization(2)
@@ -6608,7 +6608,7 @@ def quadratic_residuocity_characterization(x):
         sage: print(result_dict)
         {1: None, 0: Set of all prime numbers: 2, 3, 5, 7, ..., -1: None, 'modulus': None}
 
-    TESTS:
+    TESTS::
 
         sage: from sage.arith.misc import quadratic_residuocity_characterization
         sage: result_dict = quadratic_residuocity_characterization(-1)
@@ -6643,7 +6643,7 @@ def quadratic_residuocity_characterization(x):
         `\QQ(\sqrt{x})`. If `x = 0` then the kronecker symbol
         `\left(\frac{0}{p}\right)` is equal to 0. As such we exclude that case.
         Similarly, if `\sqrt{x} \in \ZZ` then we know that `\sqrt{x} \in
-        \FF_p`, implying `\left(\frac{x}{p}\right) = 1`. Hence, we
+        \\GF{p}`, implying `\left(\frac{x}{p}\right) = 1`. Hence, we
         can exclude this case as well.
 
         For the remaining cases we let `D` be the fundamental discriminant of
