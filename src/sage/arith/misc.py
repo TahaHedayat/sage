@@ -6561,16 +6561,14 @@ def quadratic_residuocity_characterization(x):
     a_{1_2}, \ldots, a_{1_n}`, `p_1, p_2, \ldots, p_v`, and `a_{-1_1},
     a_{-1_2}, \ldots, a_{-1_m}` such that for any prime `p`
 
-    MATH::
+    .. MATH::
         \left(\frac{x}{p}\right) = \left\lbrace \begin{array}{ll}
         1  & \text{if } p \equiv a_{1_1} , a_{1_2} , \ldots, a_{1_n} \pmod{M} \\
         0  & \text{if } p =      p_1     , p_2     , \ldots, p_v              \\
         -1 & \text{if } p \equiv a_{-1_1}, a_{-1_2}, \ldots, a_{-1_m} \pmod{M}
         \end{array} \right.
 
-    and return the computed values as a dictionary of the form:
-
-::
+    and return the computed values as a dictionary of the form::
 
         quad_res_char_dict = {
              1: [a_1_1 , a_1_2 , ... , a_1_n ],
@@ -6579,7 +6577,7 @@ def quadratic_residuocity_characterization(x):
             'modulus': M
         }
 
-    NOTE::
+    .. NOTE::
 
         If `x = 0`, then for any prime, `p`, `\left(\frac{x}{p}\right) = 0`.
         Thus in this case, ``quad_res_char_dict[0] = Primes()`` and all other
