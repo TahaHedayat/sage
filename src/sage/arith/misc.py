@@ -6646,7 +6646,7 @@ def quadratic_residuocity_characterization(x):
         \FF_p`, implying `\left(\frac{x}{p}\right) = 1`. Hence, we
         can exclude this case as well.
 
-        For the remaining cases we let `D` be the fundamental characteristic of
+        For the remaining cases we let `D` be the fundamental discriminant of
         the number field `\QQ(\sqrt{x})` and use the fact that
 
         .. MATH::
