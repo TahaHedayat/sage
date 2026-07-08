@@ -6637,6 +6637,7 @@ def quadratic_residuocity_characterization(x):
         True
 
     ALGORITHM:
+
         Suppose we are given an integer `x`. We take advantage of Algebraic
         Number Theory techniques by looking at the field extension
         `\QQ(\sqrt{x})`. If `x = 0` then the kronecker symbol
@@ -6647,7 +6648,9 @@ def quadratic_residuocity_characterization(x):
 
         For the remaining cases we let `D` be the fundamental characteristic of
         the number field `\QQ(\sqrt{x})` and use the fact that
-        MATH::
+
+        .. MATH::
+
             \left(\frac{x}{p}\right) = \left(\frac{D}{p}\right)
 
         and the fact that `D` is the minimal period of the character above to
