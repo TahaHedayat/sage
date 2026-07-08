@@ -6557,7 +6557,7 @@ def quadratic_residuocity_characterization(x):
         - ``quad_res_char_dict['modulus']`` is either ``None`` or an integer
           ``M``.
 
-    To be precise: given a rational integer `x`, determine `M`, `a_{1_1},
+    To be precise: given an integer `x`, determine `M`, `a_{1_1},
     a_{1_2}, \ldots, a_{1_n}`, `p_1, p_2, \ldots, p_v`, and `a_{-1_1},
     a_{-1_2}, \ldots, a_{-1_m}` such that for any prime `p`
 
@@ -6664,7 +6664,7 @@ def quadratic_residuocity_characterization(x):
 
     AUTHORS:
 
-        - Taha Hedayat (2026-07-01)
+    - Taha Hedayat (2026-07-01)
 
     """
 
