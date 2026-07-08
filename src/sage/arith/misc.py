@@ -6562,11 +6562,11 @@ def quadratic_residuocity_characterization(x):
     a_{-1_2}, \ldots, a_{-1_m}` such that for any prime `p`
 
     MATH::
-        \left(\frac{x}{p}\right) = \begin{array}{ll}
+        \left(\frac{x}{p}\right) = \left\lbrace \begin{array}{ll}
         1  & \text{if } p \equiv a_{1_1} , a_{1_2} , \ldots, a_{1_n} \pmod{M} \\
         0  & \text{if } p =      p_1     , p_2     , \ldots, p_v              \\
         -1 & \text{if } p \equiv a_{-1_1}, a_{-1_2}, \ldots, a_{-1_m} \pmod{M}
-        \end{array}
+        \end{array} \right.
 
     and return the computed values as a dictionary of the form:
 
