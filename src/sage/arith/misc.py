@@ -6643,7 +6643,7 @@ def quadratic_residuocity_characterization(x):
         `\QQ(\sqrt{x})`. If `x = 0` then the kronecker symbol
         `\left(\frac{0}{p}\right)` is equal to 0. As such we exclude that case.
         Similarly, if `\sqrt{x} \in \ZZ` then we know that `\sqrt{x} \in
-        \\GF{p}`, implying `\left(\frac{x}{p}\right) = 1`. Hence, we
+        \GF{p}`, implying `\left(\frac{x}{p}\right) = 1`. Hence, we
         can exclude this case as well.
 
         For the remaining cases we let `D` be the fundamental discriminant of
@@ -6655,7 +6655,7 @@ def quadratic_residuocity_characterization(x):
 
         and the fact that `D` is the minimal period of the character above to
         calculate the values of `p \in \Zmod{D}` which results in the output of
-        the function via the built in kronecker function.
+        the function via the built in ``kronecker`` function.
 
     .. SEEALSO::
 

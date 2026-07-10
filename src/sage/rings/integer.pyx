@@ -7367,6 +7367,184 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             return (self, one)
         return (-self, -one)
 
+    def quadratic_residuocity_characterization(self):
+        r"""
+
+        Given a this integer ``x``, determine the congruence conditions
+        on primes ``p`` to determine the value of ``kronecker(x,p)``.
+
+        OUTPUT:
+
+        - A dictionary, ``quad_res_char_dict``, with keys ``1``, ``0``, ``-1``,
+          and ``'modulus'``.
+
+            - ``quad_res_char_dict[1]`` is either ``None``, or a list of
+              congruence classes modulo ``M``.
+
+            - ``quad_res_char_dict[0]`` is either ``None`` or a list of primes.
+
+            - ``quad_res_char_dict[-1]`` is either ``None`` or a list of
+              congruence classes modulo ``M``.
+
+            - ``quad_res_char_dict['modulus']`` is either ``None`` or an integer
+              ``M``.
+
+        To be precise: given a this integer `x`, determine `M`, `a_{1_1},
+        a_{1_2}, \ldots, a_{1_n}`, `p_1, p_2, \ldots, p_v`, and `a_{-1_1},
+        a_{-1_2}, \ldots, a_{-1_m}` such that for any prime `p`
+
+        .. MATH::
+            \left(\frac{x}{p}\right) = \left\lbrace \begin{array}{ll}
+            1  & \text{if } p \equiv a_{1_1} , a_{1_2} , \ldots, a_{1_n} \pmod{M} \\
+            0  & \text{if } p =      p_1     , p_2     , \ldots, p_v              \\
+            -1 & \text{if } p \equiv a_{-1_1}, a_{-1_2}, \ldots, a_{-1_m} \pmod{M}
+            \end{array} \right.
+
+        and return the computed values as a dictionary of the form::
+
+            quad_res_char_dict = {
+                 1: [a_1_1 , a_1_2 , ... , a_1_n ],
+                 0: [p_1   , p_2   , ... , p_v   ],
+                -1: [a_-1_1, a_-1_2, ... , a_-1_m],
+                'modulus': M
+            }
+
+        .. NOTE::
+
+            If `x = 0`, then for any prime, `p`, `\left(\frac{x}{p}\right) = 0`.
+            Thus in this case, ``quad_res_char_dict[0] = Primes()`` and all other
+            values are ``None``.
+
+            Similarly, if `\sqrt{x} \in \ZZ`, then for any prime,`p`, not dividing
+            `x` we have `\left(\frac{x}{p}\right) = 1`. Thus in this case,
+            ``quad_res_char_dict[1] = Primes().exclude(quad_res_char_dict[0])`` where
+            ``quad_res_char_dict[0]`` is the list of prime factors of `x`, and all
+            other values are ``None``.
+
+        EXAMPLES::
+
+            sage: result_dict = 2.quadratic_residuocity_characterization()
+            sage: print(result_dict)
+            {1: [1, 7], 0: [2], -1: [3, 5], 'modulus': 8}
+
+            sage: x = -90
+            sage: result_dict = x.quadratic_residuocity_characterization()
+            sage: print(result_dict)
+            {1: [1, 7, 9, 11, 13, 19, 23, 37], 0: [2, 3, 5], -1: [3, 17, 21, 27, 29, 31, 33, 39], 'modulus': 40}
+
+            sage: x = 225
+            sage: result_dict = 225.quadratic_residuocity_characterization()
+            sage: print(result_dict)
+            {1: Set of all prime numbers with 3, 5 excluded: 2, 7, 11, 13, ..., 0: [3, 5], -1: None, 'modulus': None}
+
+            sage: x = 0
+            sage: result_dict = x.quadratic_residuocity_characterization()
+            sage: print(result_dict)
+            {1: None, 0: Set of all prime numbers: 2, 3, 5, 7, ..., -1: None, 'modulus': None}
+
+        TESTS::
+
+            sage: x = -1
+            sage: result_dict = x.quadratic_residuocity_characterization()
+            sage: print(result_dict)
+            {1: [1], 0: [2], -1: [3], 'modulus': 4}
+
+            sage: x = 121
+            sage: result_dict = x.quadratic_residuocity_characterization()
+            sage: print(result_dict)
+            {1: Set of all prime numbers with 11 excluded: 2, 3, 5, 7, ..., 0: [11], -1: None, 'modulus': None}
+
+            sage: x = -121
+            sage: result_dict = x.quadratic_residuocity_characterization()
+            sage: print(result_dict)
+            {1: [1], 0: [2, 11], -1: [3], 'modulus': 4}
+
+            sage: from random import randint
+            sage: x = 123
+            sage: result_dict = x.quadratic_residuocity_characterization()
+            sage: QR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[1]).exclude(result_dict[0])
+            sage: NQR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[-1]).exclude(result_dict[0])
+            sage: i = randint(0, 100)
+            sage: j = randint(0, 100)
+            sage: rand_QR_prime = QR_primes[i]
+            sage: rand_NQR_prime = NQR_primes[j]
+            sage: bol_1 = (kronecker(x, rand_QR_prime) == 1)
+            sage: bol_2 = (kronecker(x, rand_NQR_prime) == -1)
+            sage: print(bol_1 and bol_2)
+            True
+
+        ALGORITHM:
+
+            Suppose we are given an integer `x`. We take advantage of Algebraic
+            Number Theory techniques by looking at the field extension
+            `\QQ(\sqrt{x})`. If `x = 0` then the kronecker symbol
+            `\left(\frac{0}{p}\right)` is equal to 0. As such we exclude that case.
+            Similarly, if `\sqrt{x} \in \ZZ` then we know that `\sqrt{x} \in
+            \GF{p}`, implying `\left(\frac{x}{p}\right) = 1`. Hence, we
+            can exclude this case as well.
+
+            For the remaining cases we let `D` be the fundamental discriminant of
+            the number field `\QQ(\sqrt{x})` and use the fact that
+
+            .. MATH::
+
+                \left(\frac{x}{p}\right) = \left(\frac{D}{p}\right)
+
+            and the fact that `D` is the minimal period of the character above to
+            calculate the values of `p \in \Zmod{D}` which results in the output of
+            the function via the built in ``kronecker`` function.
+
+        .. SEEALSO::
+
+            :func:`sage.arith.misc.kronecker`
+            :meth:`sage.rings.integer_ring.IntegerRing.quadratic_residues`
+
+        AUTHORS:
+
+        - Taha Hedayat (2026-07-01)
+
+        """
+
+        from sage.sets.primes import Primes
+
+        quad_res_char_dict = {1: None, 0: None, -1: None, 'modulus':None}
+
+        if self == 0:
+            quad_res_char_dict[0] = Primes()
+            return quad_res_char_dict
+
+        fac_self = factor(self)
+        quad_res_char_dict[0] = [p for p, _ in fac_self]
+
+        if all(e % 2 == 0 for _, e in fac_self) and fac_self.unit()==1:
+            quad_res_char_dict[1] = Primes().exclude(quad_res_char_dict[0])
+            return quad_res_char_dict
+
+        z = prod(p for p,e in fac_self if e%2==1) * fac_self.unit()
+        if z % 4 == 1:
+            D = z
+        else:
+            D = 4 * z
+            if self%2 != 0:
+                quad_res_char_dict[0].insert(0,2)
+        M = abs(D)
+        quad_res_char_dict['modulus'] =  M
+
+        res_1 = []
+        res_minus_1 = []
+
+        for a in range(1, M):
+            k = kronecker(D, a)
+            if k == 1:
+                res_1.append(a)
+            elif k == -1:
+                res_minus_1.append(a)
+
+        quad_res_char_dict[1] = res_1
+        quad_res_char_dict[-1] = res_minus_1
+
+        return quad_res_char_dict
+
 cdef int mpz_set_str_python(mpz_ptr z, char* s, int base) except -1:
     """
     Wrapper around ``mpz_set_str()`` which supports :pep:`3127`
