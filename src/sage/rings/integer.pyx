@@ -7371,7 +7371,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         r"""
 
         Given a this integer ``x``, determine the congruence conditions
-        on primes ``p`` to determine the value of ``kronecker(x,p)``.
+        on primes ``p`` which determine the value of ``kronecker(x,p)``.
 
         OUTPUT:
 
@@ -7475,7 +7475,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
 
         ALGORITHM:
 
-            Suppose we are given an integer `x`. We take advantage of Algebraic
+            Suppose we are given an integer `x`. We take advantage of Analytic
             Number Theory techniques by looking at the field extension
             `\QQ(\sqrt{x})`. If `x = 0` then the kronecker symbol
             `\left(\frac{0}{p}\right)` is equal to 0. As such we exclude that case.
@@ -7501,7 +7501,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
 
         AUTHORS:
 
-        - Taha Hedayat (2026-07-01)
+        - Taha Hedayat
 
         """
 
