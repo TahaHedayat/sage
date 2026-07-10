@@ -7513,7 +7513,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             quad_res_char_dict[0] = Primes()
             return quad_res_char_dict
 
-        fac_self = factor(self)
+        fac_self = self.factor()
         quad_res_char_dict[0] = [p for p, _ in fac_self]
 
         if all(e % 2 == 0 for _, e in fac_self) and fac_self.unit()==1:
