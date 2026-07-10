@@ -7506,6 +7506,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         """
 
         from sage.sets.primes import Primes
+        from sage.arith.misc import kronecker
 
         quad_res_char_dict = {1: None, 0: None, -1: None, 'modulus':None}
 
@@ -7520,7 +7521,10 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             quad_res_char_dict[1] = Primes().exclude(quad_res_char_dict[0])
             return quad_res_char_dict
 
-        z = prod(p for p,e in fac_self if e%2==1) * fac_self.unit()
+        z = fac_self.unit()
+        for p, e in fac_self:
+            if e % 2 == 1:
+                z *= p
         if z % 4 == 1:
             D = z
         else:
@@ -7528,7 +7532,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             if self%2 != 0:
                 quad_res_char_dict[0].insert(0,2)
         M = abs(D)
-        quad_res_char_dict['modulus'] =  M
+        quad_res_char_dict['modulus'] = M
 
         res_1 = []
         res_minus_1 = []
