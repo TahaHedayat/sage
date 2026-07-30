@@ -7378,18 +7378,19 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         - A dictionary, ``quad_res_char_dict``, with keys ``1``, ``0``, ``-1``,
           and ``'modulus'``.
 
-            - ``quad_res_char_dict[1]`` is either ``None``, or a list of
-              congruence classes modulo ``M``.
+            - ``quad_res_char_dict[1]`` is either ``None``, a subset of 
+              ``Primes()``, or a list integers.
 
-            - ``quad_res_char_dict[0]`` is either ``None`` or a list of primes.
+            - ``quad_res_char_dict[0]`` is either ``None``, ``Primes()``, or a 
+              list of primes.
 
-            - ``quad_res_char_dict[-1]`` is either ``None`` or a list of
-              congruence classes modulo ``M``.
+            - ``quad_res_char_dict[-1]`` is either ``None``, a subset of 
+              ``Primes()``, or a list integers.
 
             - ``quad_res_char_dict['modulus']`` is either ``None`` or an integer
               ``M``.
 
-        To be precise: given a this integer `x`, determine `M`, `a_{1_1},
+        To be precise: given this integer `x`, determine `M`, `a_{1_1},
         a_{1_2}, \ldots, a_{1_n}`, `p_1, p_2, \ldots, p_v`, and `a_{-1_1},
         a_{-1_2}, \ldots, a_{-1_m}` such that for any prime `p`
 
@@ -7403,9 +7404,9 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         and return the computed values as a dictionary of the form::
 
             quad_res_char_dict = {
-                 1: [a_1_1 , a_1_2 , ... , a_1_n ],
-                 0: [p_1   , p_2   , ... , p_v   ],
-                -1: [a_-1_1, a_-1_2, ... , a_-1_m],
+                 1: [a_1_1   , a_1_2   , ... , a_1_n   ],
+                 0: [p_1     , p_2     , ... , p_v     ],
+                -1: [a_neg1_1, a_neg1_2, ... , a_neg1_m],
                 'modulus': M
             }
 
@@ -7434,30 +7435,6 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
 
             sage: 0.quadratic_residuocity_characterization()
             {1: None, 0: Set of all prime numbers: 2, 3, 5, 7, ..., -1: None, 'modulus': None}
-
-        TESTS::
-
-            sage: (-1).quadratic_residuocity_characterization()
-            {1: [1], 0: [2], -1: [3], 'modulus': 4}
-
-            sage: 121.quadratic_residuocity_characterization()
-            {1: Set of all prime numbers with 11 excluded: 2, 3, 5, 7, ..., 0: [11], -1: None, 'modulus': None}
-
-            sage: (-121).quadratic_residuocity_characterization()
-            {1: [1], 0: [2, 11], -1: [3], 'modulus': 4}
-
-            sage: x = 123
-            sage: result_dict = x.quadratic_residuocity_characterization()
-            sage: QR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[1]).exclude(result_dict[0])
-            sage: NQR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[-1]).exclude(result_dict[0])
-            sage: i = randint(0, 100)
-            sage: j = randint(0, 100)
-            sage: rand_QR_prime = QR_primes[i]
-            sage: rand_NQR_prime = NQR_primes[j]
-            sage: bol_1 = (kronecker(x, rand_QR_prime) == 1)
-            sage: bol_2 = (kronecker(x, rand_NQR_prime) == -1)
-            sage: print(bol_1 and bol_2)
-            True
 
         ALGORITHM:
 
@@ -7488,6 +7465,30 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         AUTHORS:
 
         - Taha Hedayat
+
+        TESTS::
+
+            sage: (-1).quadratic_residuocity_characterization()
+            {1: [1], 0: [2], -1: [3], 'modulus': 4}
+
+            sage: 121.quadratic_residuocity_characterization()
+            {1: Set of all prime numbers with 11 excluded: 2, 3, 5, 7, ..., 0: [11], -1: None, 'modulus': None}
+
+            sage: (-121).quadratic_residuocity_characterization()
+            {1: [1], 0: [2, 11], -1: [3], 'modulus': 4}
+
+            sage: x = 123
+            sage: result_dict = x.quadratic_residuocity_characterization()
+            sage: QR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[1]).exclude(result_dict[0])
+            sage: NQR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[-1]).exclude(result_dict[0])
+            sage: i = randint(0, 100)
+            sage: j = randint(0, 100)
+            sage: rand_QR_prime = QR_primes[i]
+            sage: rand_NQR_prime = NQR_primes[j]
+            sage: bol_1 = (kronecker(x, rand_QR_prime) == 1)
+            sage: bol_2 = (kronecker(x, rand_NQR_prime) == -1)
+            sage: print(bol_1 and bol_2)
+            True
 
         """
 
