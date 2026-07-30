@@ -7423,40 +7423,27 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
 
         EXAMPLES::
 
-            sage: result_dict = 2.quadratic_residuocity_characterization()
-            sage: print(result_dict)
+            sage: 2.quadratic_residuocity_characterization()
             {1: [1, 7], 0: [2], -1: [3, 5], 'modulus': 8}
 
-            sage: x = -90
-            sage: result_dict = x.quadratic_residuocity_characterization()
-            sage: print(result_dict)
+            sage: (-90).quadratic_residuocity_characterization()
             {1: [1, 7, 9, 11, 13, 19, 23, 37], 0: [2, 3, 5], -1: [3, 17, 21, 27, 29, 31, 33, 39], 'modulus': 40}
 
-            sage: x = 225
-            sage: result_dict = 225.quadratic_residuocity_characterization()
-            sage: print(result_dict)
+            sage: 225.quadratic_residuocity_characterization()
             {1: Set of all prime numbers with 3, 5 excluded: 2, 7, 11, 13, ..., 0: [3, 5], -1: None, 'modulus': None}
 
-            sage: x = 0
-            sage: result_dict = x.quadratic_residuocity_characterization()
-            sage: print(result_dict)
+            sage: 0.quadratic_residuocity_characterization()
             {1: None, 0: Set of all prime numbers: 2, 3, 5, 7, ..., -1: None, 'modulus': None}
 
         TESTS::
 
-            sage: x = -1
-            sage: result_dict = x.quadratic_residuocity_characterization()
-            sage: print(result_dict)
+            sage: (-1).quadratic_residuocity_characterization()
             {1: [1], 0: [2], -1: [3], 'modulus': 4}
 
-            sage: x = 121
-            sage: result_dict = x.quadratic_residuocity_characterization()
-            sage: print(result_dict)
+            sage: 121.quadratic_residuocity_characterization()
             {1: Set of all prime numbers with 11 excluded: 2, 3, 5, 7, ..., 0: [11], -1: None, 'modulus': None}
 
-            sage: x = -121
-            sage: result_dict = x.quadratic_residuocity_characterization()
-            sage: print(result_dict)
+            sage: (-121).quadratic_residuocity_characterization()
             {1: [1], 0: [2, 11], -1: [3], 'modulus': 4}
 
             sage: x = 123
@@ -7476,7 +7463,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
 
             Suppose we are given an integer `x`. We take advantage of Analytic
             Number Theory techniques by looking at the field extension
-            `\QQ(\sqrt{x})`. If `x = 0` then the kronecker symbol
+            `\QQ(\sqrt{x})`. If `x = 0` then the Kronecker symbol
             `\left(\frac{0}{p}\right)` is equal to 0. As such we exclude that case.
             Similarly, if `\sqrt{x} \in \ZZ` then we know that `\sqrt{x} \in
             \GF{p}`, implying `\left(\frac{x}{p}\right) = 1`. Hence, we
@@ -7516,20 +7503,19 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         fac_self = self.factor()
         quad_res_char_dict[0] = [p for p, _ in fac_self]
 
-        if all(e % 2 == 0 for _, e in fac_self) and fac_self.unit()==1:
+        if all(e.is_even() for _, e in fac_self) and fac_self.unit() == 1:
             quad_res_char_dict[1] = Primes().exclude(quad_res_char_dict[0])
             return quad_res_char_dict
 
         z = fac_self.unit()
         for p, e in fac_self:
-            if e % 2 == 1:
+            if e.is_odd():
                 z *= p
-        if z % 4 == 1:
-            D = z
-        else:
-            D = 4 * z
-            if self%2 != 0:
-                quad_res_char_dict[0].insert(0,2)
+        D = z
+        if z % 4 != 1:
+            D *= 4
+            if self.is_odd():
+                quad_res_char_dict[0].insert(0, 2)
         M = abs(D)
         quad_res_char_dict['modulus'] = M
 
