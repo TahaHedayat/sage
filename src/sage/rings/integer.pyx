@@ -7416,7 +7416,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             Thus in this case, ``quad_res_char_dict[0] = Primes()`` and all other
             values are ``None``.
 
-            Similarly, if `\sqrt{x} \in \ZZ`, then for any prime,`p`, not dividing
+            Similarly, if `\sqrt{x} \in \ZZ`, then for any prime, `p`, not dividing
             `x` we have `\left(\frac{x}{p}\right) = 1`. Thus in this case,
             ``quad_res_char_dict[1] = Primes().exclude(quad_res_char_dict[0])`` where
             ``quad_res_char_dict[0]`` is the list of prime factors of `x`, and all
@@ -7438,13 +7438,11 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
 
         ALGORITHM:
 
-            Suppose we are given an integer `x`. We take advantage of Analytic
-            Number Theory techniques by looking at the field extension
-            `\QQ(\sqrt{x})`. If `x = 0` then the Kronecker symbol
+            Suppose we are given an integer `x`. If `x = 0` then the Kronecker symbol
             `\left(\frac{0}{p}\right)` is equal to 0. As such we exclude that case.
             Similarly, if `\sqrt{x} \in \ZZ` then we know that `\sqrt{x} \in
-            \GF{p}`, implying `\left(\frac{x}{p}\right) = 1`. Hence, we
-            can exclude this case as well.
+            \GF{p}`, implying `\left(\frac{x}{p}\right) = 1` for all primes `p`.
+            Hence, we may exclude this case as well.
 
             For the remaining cases we let `D` be the fundamental discriminant of
             the number field `\QQ(\sqrt{x})` and use the fact that
