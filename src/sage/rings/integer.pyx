@@ -7370,7 +7370,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
     def quadratic_residuocity_characterization(self):
         r"""
 
-        Given a this integer ``x``, determine the congruence conditions
+        Given this integer ``x``, determine the congruence conditions
         on primes ``p`` which determine the value of ``kronecker(x,p)``.
 
         OUTPUT:
@@ -7459,7 +7459,6 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             sage: print(result_dict)
             {1: [1], 0: [2, 11], -1: [3], 'modulus': 4}
 
-            sage: from random import randint
             sage: x = 123
             sage: result_dict = x.quadratic_residuocity_characterization()
             sage: QR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[1]).exclude(result_dict[0])
@@ -7497,7 +7496,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         .. SEEALSO::
 
             :func:`sage.arith.misc.kronecker`
-            :meth:`sage.rings.integer_ring.IntegerRing.quadratic_residues`
+            :func:`sage.arith.misc.quadratic_residues`
 
         AUTHORS:
 
