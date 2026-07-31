@@ -7445,13 +7445,22 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             {1: [1, 7], 0: [2], -1: [3, 5], 'modulus': 8}
 
             sage: (-90).quadratic_residuocity_characterization()
-            {1: [1, 7, 9, 11, 13, 19, 23, 37], 0: [2, 3, 5], -1: [3, 17, 21, 27, 29, 31, 33, 39], 'modulus': 40}
+            {1: [1, 7, 9, 11, 13, 19, 23, 37],
+             0: [2, 3, 5],
+             -1: [3, 17, 21, 27, 29, 31, 33, 39],
+             'modulus': 40}
 
             sage: 225.quadratic_residuocity_characterization()
-            {1: Set of all prime numbers with 3, 5 excluded: 2, 7, 11, 13, ..., 0: [3, 5], -1: None, 'modulus': None}
+            {1: Set of all prime numbers with 3, 5 excluded: 2, 7, 11, 13, ...,
+             0: [3, 5],
+             -1: None,
+             'modulus': None}
 
             sage: 0.quadratic_residuocity_characterization()
-            {1: None, 0: Set of all prime numbers: 2, 3, 5, 7, ..., -1: None, 'modulus': None}
+            {1: None,
+             0: Set of all prime numbers: 2, 3, 5, 7, ...,
+             -1: None,
+             'modulus': None}
 
         ALGORITHM:
 
@@ -7487,7 +7496,10 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             {1: [1], 0: [2], -1: [3], 'modulus': 4}
 
             sage: 121.quadratic_residuocity_characterization()
-            {1: Set of all prime numbers with 11 excluded: 2, 3, 5, 7, ..., 0: [11], -1: None, 'modulus': None}
+            {1: Set of all prime numbers with 11 excluded: 2, 3, 5, 7, ...,
+             0: [11],
+             -1: None,
+             'modulus': None}
 
             sage: (-121).quadratic_residuocity_characterization()
             {1: [1], 0: [2, 11], -1: [3], 'modulus': 4}
