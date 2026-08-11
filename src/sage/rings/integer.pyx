@@ -7392,83 +7392,69 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
 
         OUTPUT:
 
-        - A dictionary, ``quad_res_char_dict``, with keys ``1``, ``0``, ``-1``,
-          and ``'modulus'``.
+        - A tuple, ``quad_res_char_tup``, of three values
 
-            - ``quad_res_char_dict[1]`` is either ``None``, a subset of 
-              ``Primes()``, or a list integers.
-
-            - ``quad_res_char_dict[0]`` is either ``None``, ``Primes()``, or a 
+            - ``quad_res_char_tup[0]`` is either ``None``, ``Primes()``, or a 
               list of primes.
 
-            - ``quad_res_char_dict[-1]`` is either ``None``, a subset of 
+            - ``quad_res_char_tup[1]`` is either ``None``, a subset of 
               ``Primes()``, or a list integers.
 
-            - ``quad_res_char_dict['modulus']`` is either ``None`` or an integer
+            - ``quad_res_char_tup[2]`` is either ``None`` or an integer
               ``M``.
 
-        To be precise: given this integer `x`, determine `M`, `a_{1_1},
-        a_{1_2}, \ldots, a_{1_n}`, `p_1, p_2, \ldots, p_v`, and `a_{-1_1},
-        a_{-1_2}, \ldots, a_{-1_m}` such that for any prime `p`
+        To be precise: given this integer `x`, determine `M`, `a_{1},
+        a_{2}, \ldots, a_{n}`, and `p_1, p_2, \ldots, p_v` such that for any prime `p`
 
         .. MATH::
             \left(\frac{x}{p}\right) = \left\lbrace \begin{array}{ll}
-            1  & \text{if } p \equiv a_{1_1} , a_{1_2} , \ldots, a_{1_n} \pmod{M} \\
-            0  & \text{if } p =      p_1     , p_2     , \ldots, p_v              \\
-            -1 & \text{if } p \equiv a_{-1_1}, a_{-1_2}, \ldots, a_{-1_m} \pmod{M}
+            1  & \text{if } p \equiv     a_{1} , a_{2} , \ldots, a_{n} \pmod{M} \\
+            0  & \text{if } p =          p_1   , p_2   , \ldots, p_v            \\
+            -1 & \text{if } p \not\equiv a_{1} , a_{2} , \ldots, a_{n} \pmod{M}
             \end{array} \right.
 
         and return the computed values as a dictionary of the form::
 
-            quad_res_char_dict = {
-                 1: [a_1_1   , a_1_2   , ... , a_1_n   ],
-                 0: [p_1     , p_2     , ... , p_v     ],
-                -1: [a_neg1_1, a_neg1_2, ... , a_neg1_m],
-                'modulus': M
-            }
+            quad_res_char_tup = (
+                [p_1, p_2, ... , p_v],
+                [a_1, a_2, ... , a_n],
+                M
+            )
 
         .. NOTE::
 
             If `x = 0`, then for any prime, `p`, `\left(\frac{x}{p}\right) = 0`.
-            Thus in this case, ``quad_res_char_dict[0] = Primes()`` and all other
+            Thus in this case, ``quad_res_char_tup[0] = Primes()`` and all other
             values are ``None``.
 
             Similarly, if `\sqrt{x} \in \ZZ`, then for any prime, `p`, not dividing
             `x` we have `\left(\frac{x}{p}\right) = 1`. Thus in this case,
-            ``quad_res_char_dict[1] = Primes().exclude(quad_res_char_dict[0])`` where
-            ``quad_res_char_dict[0]`` is the list of prime factors of `x`, and all
+            ``quad_res_char_tup[1] = Primes().exclude(quad_res_char_tup[0])`` where
+            ``quad_res_char_tup[0]`` is the list of prime factors of `x`, and all
             other values are ``None``.
 
         EXAMPLES::
 
             sage: 2.quadratic_residuocity_characterization()
-            {-1: [3, 5], 0: [2], 1: [1, 7], 'modulus': 8}
+            ([2], [1, 7], 8)
 
             sage: (-90).quadratic_residuocity_characterization()
-            {-1: [3, 17, 21, 27, 29, 31, 33, 39],
-             0: [2, 3, 5],
-             1: [1, 7, 9, 11, 13, 19, 23, 37],
-             'modulus': 40}
+            ([2, 3, 5], [1, 7, 9, 11, 13, 19, 23, 37], 40)
 
             sage: 225.quadratic_residuocity_characterization()
-            {-1: None,
-             0: [3, 5],
-             1: Set of all prime numbers with 3, 5 excluded: 2, 7, 11, 13, ...,
-             'modulus': None}
+            ([3, 5], Set of all prime numbers with 3, 5 excluded: 2, 7, 11, 13, ..., None)
 
             sage: 0.quadratic_residuocity_characterization()
-            {-1: None,
-             0: Set of all prime numbers: 2, 3, 5, 7, ...,
-             1: None,
-             'modulus': None}
+            (Set of all prime numbers: 2, 3, 5, 7, ..., None, None)
+
 
         ALGORITHM:
 
             Suppose we are given an integer `x`. If `x = 0` then the Kronecker symbol
-            `\left(\frac{0}{p}\right)` is equal to 0. As such we exclude that case.
+            `\left(\frac{0}{p}\right)` is equal to 0. As such we handle this case.
             Similarly, if `\sqrt{x} \in \ZZ` then we know that `\sqrt{x} \in
             \GF{p}`, implying `\left(\frac{x}{p}\right) = 1` for all primes `p`.
-            Hence, we may exclude this case as well.
+            Hence, we may handle this case as well.
 
             For the remaining cases we let `D` be the fundamental discriminant of
             the number field `\QQ(\sqrt{x})` and use the fact that
@@ -7478,8 +7464,8 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
                 \left(\frac{x}{p}\right) = \left(\frac{D}{p}\right)
 
             and the fact that `D` is the minimal period of the character above to
-            calculate the values of `p \in \Zmod{D}` which results in the output of
-            the function via the built in ``kronecker`` function.
+            calculate which values of `p \in \Zmod{D}` make `D` a quadratic
+            residue modulo `p`.
 
         .. SEEALSO::
 
@@ -7493,21 +7479,19 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         TESTS::
 
             sage: (-1).quadratic_residuocity_characterization()
-            {-1: [3], 0: [2], 1: [1], 'modulus': 4}
+            ([2], [1], 4)
 
             sage: 121.quadratic_residuocity_characterization()
-            {-1: None,
-             0: [11],
-             1: Set of all prime numbers with 11 excluded: 2, 3, 5, 7, ...,
-             'modulus': None}
+            ([11], Set of all prime numbers with 11 excluded: 2, 3, 5, 7, ..., None)
 
             sage: (-121).quadratic_residuocity_characterization()
-            {-1: [3], 0: [2, 11], 1: [1], 'modulus': 4}
+            ([2, 11], [1], 4)
 
             sage: x = 123
-            sage: result_dict = x.quadratic_residuocity_characterization()
-            sage: QR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[1]).exclude(result_dict[0])
-            sage: NQR_primes = Primes(modulus=result_dict['modulus'], classes=result_dict[-1]).exclude(result_dict[0])
+            sage: (res_0, res_1, M) = x.quadratic_residuocity_characterization()
+            sage: QR_primes = Primes(modulus=M, classes=res_1).exclude(res_0)
+            sage: NQR_classes = [i for i in [1..M] if i not in res_1 and gcd(i, M)==1]
+            sage: NQR_primes = Primes(modulus=M, classes=NQR_classes).exclude(res_0)
             sage: i = randint(0, 100)
             sage: j = randint(0, 100)
             sage: rand_QR_prime = QR_primes[i]
@@ -7521,18 +7505,14 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         cdef Integer e, p, z, D, M, k, a
         from sage.sets.primes import Primes
 
-        quad_res_char_dict = {Integer(1): None, Integer(0): None, Integer(-1): None, 'modulus': None}
-
         if self == 0:
-            quad_res_char_dict[0] = Primes()
-            return quad_res_char_dict
+            return Primes(), None, None
 
         fac_self = self.factor()
-        quad_res_char_dict[0] = [p for p, _ in fac_self]
+        cdef list[Integer] res_0 = [p for p, _ in fac_self]
 
         if all(e.is_even() for _, e in fac_self) and fac_self.unit() == 1:
-            quad_res_char_dict[1] = Primes().exclude(quad_res_char_dict[0])
-            return quad_res_char_dict
+            return res_0, Primes().exclude(res_0), None
 
         z = fac_self.unit()
         for p, e in fac_self:
@@ -7542,12 +7522,10 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         if z % 4 != 1:
             D *= 4
             if self.is_odd():
-                quad_res_char_dict[0].insert(0, 2)
+                quad_res_char_tup[0].insert(0, 2)
         M = abs(D)
-        quad_res_char_dict['modulus'] = M
 
         cdef list[Integer] res_1 = []
-        cdef list[Integer] res_minus_1 = []
 
         cdef Py_ssize_t i
         for i in range(1, M):
@@ -7555,13 +7533,8 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             k = D.kronecker(a)
             if k == 1:
                 res_1.append(a)
-            elif k == -1:
-                res_minus_1.append(a)
 
-        quad_res_char_dict[1] = res_1
-        quad_res_char_dict[-1] = res_minus_1
-
-        return quad_res_char_dict
+        return res_0, res_1, M
 
 cdef int mpz_set_str_python(mpz_ptr z, char* s, int base) except -1:
     """
