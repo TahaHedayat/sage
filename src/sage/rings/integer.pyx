@@ -7522,7 +7522,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         if z % 4 != 1:
             D *= 4
             if self.is_odd():
-                quad_res_char_tup[0].insert(0, 2)
+                res_0.insert(0, 2)
         M = abs(D)
 
         cdef list[Integer] res_1 = []
