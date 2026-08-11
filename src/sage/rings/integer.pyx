@@ -7413,7 +7413,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             -1 & \text{if } p \not\equiv a_{1} , a_{2} , \ldots, a_{n} \pmod{M}
             \end{array} \right.
 
-        and return the computed values as a dictionary of the form::
+        and return the computed values as a tuple of the form::
 
             quad_res_char_tup = (
                 [p_1, p_2, ... , p_v],
