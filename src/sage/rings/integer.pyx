@@ -7514,7 +7514,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         if all(e.is_even() for _, e in fac_self) and fac_self.unit() == 1:
             return res_0, Primes().exclude(res_0), None
 
-        z = fac_self.unit()
+        z = Integer(fac_self.unit())
         for p, e in fac_self:
             if e.is_odd():
                 z *= p
@@ -7524,6 +7524,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             if self.is_odd():
                 res_0.insert(0, 2)
         M = abs(D)
+        
 
         cdef list[Integer] res_1 = []
 
