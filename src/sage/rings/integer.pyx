@@ -7518,11 +7518,10 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             True
 
         """
-
+        cdef Integer e, p, z, D, M, k, a
         from sage.sets.primes import Primes
-        from sage.arith.misc import kronecker
 
-        quad_res_char_dict = {1: None, 0: None, -1: None, 'modulus':None}
+        quad_res_char_dict = {ZZ.one(): None, ZZ.zero(): None, -ZZ.one(): None, 'modulus':None}
 
         if self == 0:
             quad_res_char_dict[0] = Primes()
@@ -7547,11 +7546,11 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         M = abs(D)
         quad_res_char_dict['modulus'] = M
 
-        res_1 = []
-        res_minus_1 = []
+        cdef list[Integer] res_1 = []
+        cdef list[Integer] res_minus_1 = []
 
-        for a in range(1, M):
-            k = kronecker(D, a)
+        for a in srange(1, M):
+            k = D.kronecker(a)
             if k == 1:
                 res_1.append(a)
             elif k == -1:
