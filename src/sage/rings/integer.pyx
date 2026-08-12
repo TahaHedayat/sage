@@ -7522,9 +7522,8 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         if z % 4 != 1:
             D *= 4
             if self.is_odd():
-                res_0.insert(0, 2)
+                res_0.insert(0, Integer(2))
         M = abs(D)
-        D = Integer(D)
         
 
         cdef list[Integer] res_1 = []
@@ -7532,7 +7531,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         cdef Py_ssize_t i
         for i in range(1, M):
             a = Integer(i)
-            k = D.kronecker(a)
+            k = Integer(D.kronecker(a))
             if k == 1:
                 res_1.append(a)
 
