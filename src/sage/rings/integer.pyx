@@ -7408,8 +7408,8 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             - ``quad_res_char_tup[2]`` is either ``None`` or an integer
               ``M``.
 
-        To be precise: given this integer `x`, determine `M`, `a_{1},
-        a_{2}, \ldots, a_{n}`, and `p_1, p_2, \ldots, p_v` such that for any prime `p`
+        To be precise: given this integer `x`, determine `M`, `a_1,
+        a_2, \ldots, a_n`, and `p_1, p_2, \ldots, p_v` such that for any prime `p`
 
         .. MATH::
             \left(\frac{x}{p}\right) = \left\lbrace \begin{array}{ll}
@@ -7503,7 +7503,7 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
             sage: rand_NQR_prime = NQR_primes[j]
             sage: bol_1 = (kronecker(x, rand_QR_prime) == 1)
             sage: bol_2 = (kronecker(x, rand_NQR_prime) == -1)
-            sage: print(bol_1 and bol_2)
+            sage: bol_1 and bol_2
             True
 
         """
