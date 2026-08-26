@@ -7484,13 +7484,13 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
         TESTS::
 
             sage: (-1).quadratic_residuocity_characterization()
-            ([2], [1], 4)
+            ([], [1, 2], 4)
 
             sage: 121.quadratic_residuocity_characterization()
             ([11], Set of all prime numbers with 11 excluded: 2, 3, 5, 7, ..., None)
 
             sage: (-121).quadratic_residuocity_characterization()
-            ([2, 11], [1], 4)
+            ([11], [1, 2], 4)
 
             sage: x = 123
             sage: (res_0, res_1, M) = x.quadratic_residuocity_characterization()
