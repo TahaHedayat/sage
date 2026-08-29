@@ -7413,9 +7413,9 @@ cdef class Integer(sage.structure.element.EuclideanDomainElement):
 
         .. MATH::
             \left(\frac{x}{p}\right) = \left\lbrace \begin{array}{ll}
-            1  & \text{if } p \equiv     a_{1} , a_{2} , \ldots, a_{n} \pmod{M} \\
+            1  & \text{if } p \equiv     a_{1} , a_{2} , \ldots, a_{n} \pmod{M}, \text{ and } p \neq p_1, p_2, \ldots, p_v\\
             0  & \text{if } p =          p_1   , p_2   , \ldots, p_v            \\
-            -1 & \text{if } p \not\equiv a_{1} , a_{2} , \ldots, a_{n} \pmod{M}
+            -1 & \text{if } p \not\equiv a_{1} , a_{2} , \ldots, a_{n} \pmod{M}, \text{ and } p \neq p_1, p_2, \ldots, p_v\\
             \end{array} \right.
 
         and return the computed values as a tuple of the form::
